@@ -850,6 +850,36 @@ body {
   background: var(--primary);
   color: white;
 }
+
+/* 嵌套子菜单样式 */
+.tree-submenu.nested {
+  padding-left: 20px;
+  display: none;
+}
+
+.tree-submenu.nested li {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+.tree-submenu.nested li.has-submenu {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tree-submenu.nested li.has-submenu:hover {
+  background: var(--bg);
+}
+
+.tree-submenu.nested li.active {
+  background: var(--primary);
+  color: white;
+}
+
+/* 薪酬管理展开时显示嵌套菜单 */
+.tree-submenu li.has-submenu.active + .tree-submenu.nested {
+  display: block;
+}
 </style>
 </head>
 <body>
@@ -929,69 +959,48 @@ body {
     <div class="tree-menu" id="treeMenu">
       <div class="tree-item" onclick="toggleTreeItem(this)">
         <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">法定缴费类</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '社保规定', '')">全部</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">休假类</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '休假', '')">全部</li>
-        <li onclick="selectTreeItem(this, '休假', '年假')">年假</li>
-        <li onclick="selectTreeItem(this, '休假', '病假')">病假</li>
-        <li onclick="selectTreeItem(this, '休假', '产假')">产假</li>
-        <li onclick="selectTreeItem(this, '休假', '赔偿金')">赔偿金</li>
-        <li onclick="selectTreeItem(this, '休假', '育儿假')">育儿假</li>
-        <li onclick="selectTreeItem(this, '休假', '丧假')">丧假</li>
-        <li onclick="selectTreeItem(this, '休假', '婚假')">婚假</li>
-        <li onclick="selectTreeItem(this, '休假', '其他假期')">其他假期</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">强制支付 / 法定津贴类</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '强制支付', '')">全部</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">工时与加班</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '工作时间', '')">全部</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">离职与遣散</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '入职离职', '')">入职离职</li>
-        <li onclick="selectTreeItem(this, '离职结算', '')">离职结算</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
-        <span class="tree-title">个税</span>
-      </div>
-      <ul class="tree-submenu">
-        <li class="active" onclick="selectTreeItem(this, '个税', '')">全部</li>
-      </ul>
-
-      <div class="tree-item" onclick="toggleTreeItem(this)">
-        <span class="tree-arrow">&#9654;</span>
         <span class="tree-title">按照业务节点</span>
       </div>
       <ul class="tree-submenu">
         <li onclick="selectTreeItem(this, '', '招聘管理')">招聘管理</li>
         <li onclick="selectTreeItem(this, '', '员工关系')">员工关系</li>
-        <li onclick="selectTreeItem(this, '', '薪酬管理')">薪酬管理</li>
+        <li class="has-submenu" onclick="toggleSubTree(this)">薪酬管理</li>
+        <ul class="tree-submenu nested">
+          <li class="active" onclick="selectTreeItem(this, '', '薪酬管理-全部')">全部</li>
+          <li class="has-submenu" onclick="toggleSubTree(this)">法定缴费类</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '社保规定', '')">社保规定</li>
+          </ul>
+          <li class="has-submenu" onclick="toggleSubTree(this)">休假类</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '休假', '')">全部</li>
+            <li onclick="selectTreeItem(this, '休假', '年假')">年假</li>
+            <li onclick="selectTreeItem(this, '休假', '病假')">病假</li>
+            <li onclick="selectTreeItem(this, '休假', '产假')">产假</li>
+            <li onclick="selectTreeItem(this, '休假', '赔偿金')">赔偿金</li>
+            <li onclick="selectTreeItem(this, '休假', '育儿假')">育儿假</li>
+            <li onclick="selectTreeItem(this, '休假', '丧假')">丧假</li>
+            <li onclick="selectTreeItem(this, '休假', '婚假')">婚假</li>
+            <li onclick="selectTreeItem(this, '休假', '其他假期')">其他假期</li>
+          </ul>
+          <li class="has-submenu" onclick="toggleSubTree(this)">强制支付 / 法定津贴类</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '强制支付', '')">强制支付</li>
+          </ul>
+          <li class="has-submenu" onclick="toggleSubTree(this)">工时与加班</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '工作时间', '')">工作时间</li>
+          </ul>
+          <li class="has-submenu" onclick="toggleSubTree(this)">离职与遣散</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '入职离职', '')">入职离职</li>
+            <li onclick="selectTreeItem(this, '离职结算', '')">离职结算</li>
+          </ul>
+          <li class="has-submenu" onclick="toggleSubTree(this)">个税</li>
+          <ul class="tree-submenu nested">
+            <li onclick="selectTreeItem(this, '个税', '')">个税</li>
+          </ul>
+        </ul>
         <li onclick="selectTreeItem(this, '', '培训发展')">培训发展</li>
       </ul>
     </div>
@@ -1503,6 +1512,15 @@ function applyFilters() {
 // 树形菜单交互函数
 function toggleTreeItem(el) {
   el.classList.toggle('active');
+}
+
+// 嵌套子菜单切换
+function toggleSubTree(li) {
+  li.classList.toggle('active');
+  const nextUl = li.nextElementSibling;
+  if (nextUl && nextUl.classList.contains('tree-submenu')) {
+    nextUl.style.display = nextUl.style.display === 'block' ? 'none' : 'block';
+  }
 }
 
 function selectTreeItem(li, category, subcategory) {
