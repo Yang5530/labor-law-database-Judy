@@ -786,6 +786,70 @@ body {
 .toast.show {
   transform: translateX(-50%) translateY(0);
 }
+
+/* ===== 树形菜单样式 ===== */
+.tree-menu {
+  margin-top: 12px;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.tree-item:hover {
+  background: var(--bg);
+}
+
+.tree-arrow {
+  display: inline-block;
+  width: 16px;
+  font-size: 0.65rem;
+  transition: transform 0.2s ease;
+  color: var(--text-secondary);
+  margin-right: 6px;
+}
+
+.tree-item.active .tree-arrow {
+  transform: rotate(90deg);
+}
+
+.tree-submenu {
+  display: none;
+  list-style: none;
+  padding: 0 0 8px 28px;
+  margin: 0;
+}
+
+.tree-item.active + .tree-submenu {
+  display: block;
+}
+
+.tree-submenu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.tree-submenu li:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.tree-submenu li.active {
+  background: var(--primary);
+  color: white;
+}
 </style>
 </head>
 <body>
@@ -862,36 +926,74 @@ body {
     </div>
 
     <h3 data-i18n="filterCategory">类别</h3>
-    <div class="filter-group">
-      <select class="filter-select" id="filterCategory" onchange="applyFilters()">
-        <option value="" data-i18n="all">全部</option>
-        <option value="劳动合同">劳动合同</option>
-        <option value="入职离职">入职离职</option>
-        <option value="离职结算">离职结算</option>
-        <option value="社保规定">社保规定</option>
-        <option value="工作时间">工作时间</option>
-        <option value="休假">休假（全部）</option>
-        <option value="年假">　年假</option>
-        <option value="病假">　病假</option>
-        <option value="产假">　产假</option>
-        <option value="陪产假">　陪产假</option>
-        <option value="育儿假">　育儿假</option>
-        <option value="领养假">　领养假</option>
-        <option value="婚假">　婚假</option>
-        <option value="丧假">　丧假</option>
-        <option value="其他假期">　其他假期</option>
-        <option value="工资">工资</option>
-      </select>
-    </div>
+    <div class="tree-menu" id="treeMenu">
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">法定缴费类</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '社保规定', '')">全部</li>
+      </ul>
 
-    <h3 data-i18n="filterImportance">重要性</h3>
-    <div class="filter-group">
-      <select class="filter-select" id="filterImportance" onchange="applyFilters()">
-        <option value="" data-i18n="all">全部</option>
-        <option value="high" data-i18n="high">高</option>
-        <option value="medium" data-i18n="medium">中</option>
-        <option value="low" data-i18n="low">低</option>
-      </select>
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">休假类</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '休假', '')">全部</li>
+        <li onclick="selectTreeItem(this, '休假', '年假')">年假</li>
+        <li onclick="selectTreeItem(this, '休假', '病假')">病假</li>
+        <li onclick="selectTreeItem(this, '休假', '产假')">产假</li>
+        <li onclick="selectTreeItem(this, '休假', '赔偿金')">赔偿金</li>
+        <li onclick="selectTreeItem(this, '休假', '育儿假')">育儿假</li>
+        <li onclick="selectTreeItem(this, '休假', '丧假')">丧假</li>
+        <li onclick="selectTreeItem(this, '休假', '婚假')">婚假</li>
+        <li onclick="selectTreeItem(this, '休假', '其他假期')">其他假期</li>
+      </ul>
+
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">强制支付 / 法定津贴类</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '强制支付', '')">全部</li>
+      </ul>
+
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">工时与加班</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '工作时间', '')">全部</li>
+      </ul>
+
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">离职与遣散</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '入职离职', '')">入职离职</li>
+        <li onclick="selectTreeItem(this, '离职结算', '')">离职结算</li>
+      </ul>
+
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">个税</span>
+      </div>
+      <ul class="tree-submenu">
+        <li class="active" onclick="selectTreeItem(this, '个税', '')">全部</li>
+      </ul>
+
+      <div class="tree-item" onclick="toggleTreeItem(this)">
+        <span class="tree-arrow">&#9654;</span>
+        <span class="tree-title">按照业务节点</span>
+      </div>
+      <ul class="tree-submenu">
+        <li onclick="selectTreeItem(this, '', '招聘管理')">招聘管理</li>
+        <li onclick="selectTreeItem(this, '', '员工关系')">员工关系</li>
+        <li onclick="selectTreeItem(this, '', '薪酬管理')">薪酬管理</li>
+        <li onclick="selectTreeItem(this, '', '培训发展')">培训发展</li>
+      </ul>
     </div>
 
     <h3 data-i18n="sort">排序</h3>
@@ -899,7 +1001,7 @@ body {
       <select class="filter-select" id="sortBy" onchange="applyFilters()">
         <option value="country" data-i18n="sortCountry">按国家</option>
         <option value="date" data-i18n="sortDate">按更新日期</option>
-        <option value="importance" data-i18n="sortImportance">按重要性</option>
+
       </select>
     </div>
 
@@ -1356,27 +1458,30 @@ function populateCompareSelects() {
   });
 }
 
+// 树形菜单当前选中状态
+let currentCategory = '';
+let currentSubcategory = '';
+let currentBusinessNode = '';
+
 function applyFilters() {
   const search = document.getElementById('searchInput').value.toLowerCase();
   const region = document.getElementById('filterRegion').value;
   const country = document.getElementById('filterCountry').value;
-  const category = document.getElementById('filterCategory').value;
-  const importance = document.getElementById('filterImportance').value;
   const sortBy = document.getElementById('sortBy').value;
 
   filteredData = laborLawData.filter(item => {
     if (region && item.region !== region) return false;
     if (country && item.country !== country) return false;
-    if (importance && item.importance !== importance) return false;
-    // 处理休假子类目筛选
-    const subcategories = ['年假','病假','产假','陪产假','育儿假','领养假','婚假','丧假','其他假期'];
-    if (subcategories.includes(category)) {
-      // 选择了子类目，只显示该子类目的休假数据
-      if (item.category !== '休假' || item.subcategory !== category) return false;
-    } else if (category) {
-      // 选择了其他大类
-      if (item.category !== category) return false;
+    
+    // 树形菜单筛选逻辑
+    if (currentBusinessNode) {
+      if (item.businessNode !== currentBusinessNode) return false;
+    } else if (currentSubcategory) {
+      if (item.category !== currentCategory || item.subcategory !== currentSubcategory) return false;
+    } else if (currentCategory) {
+      if (item.category !== currentCategory) return false;
     }
+    
     if (search) {
       const searchStr = `${item.country} ${item.lawName} ${item.article} ${item.category} ${item.subcategory || ''} ${item.originalText} ${item.chineseTranslation}`.toLowerCase();
       if (!searchStr.includes(search)) return false;
@@ -1385,16 +1490,35 @@ function applyFilters() {
   });
 
   // Sort
-  const importanceOrder = { high: 0, medium: 1, low: 2 };
   filteredData.sort((a, b) => {
     if (sortBy === 'country') return a.country.localeCompare(b.country);
     if (sortBy === 'date') return b.lastUpdated.localeCompare(a.lastUpdated);
-    if (sortBy === 'importance') return importanceOrder[a.importance] - importanceOrder[b.importance];
     return 0;
   });
 
   renderCards();
   updateResultCount();
+}
+
+// 树形菜单交互函数
+function toggleTreeItem(el) {
+  el.classList.toggle('active');
+}
+
+function selectTreeItem(li, category, subcategory) {
+  // 清除所有选中状态
+  document.querySelectorAll('.tree-submenu li').forEach(item => {
+    item.classList.remove('active');
+  });
+  // 设置当前选中
+  li.classList.add('active');
+  
+  // 更新筛选条件
+  currentCategory = category;
+  currentSubcategory = subcategory;
+  currentBusinessNode = (!category && subcategory) ? subcategory : '';
+  
+  applyFilters();
 }
 
 function updateResultCount() {
